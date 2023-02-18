@@ -1,0 +1,71 @@
+public class Ship
+{
+    private int row;
+    private int column;
+    private int status;
+    private int[][] position=new int[2][3];
+    private boolean sunk = false;
+    private boolean horizontal;
+    public int getPosition(int x , int y)
+    {
+        return position[x][y];
+    }
+    public int getRow()
+    {
+        return row;
+    }
+    public int getColumn()
+    {
+        return column;
+    }
+    public Ship(boolean hor)
+    {
+        horizontal=hor;
+        row = (int)((Math.random()*10)-1);
+        column = (int)((Math.random()*10)-1);
+        if(horizontal)
+        {
+            if(column<2)
+            {
+                for(int i=0;i<3;i++)
+                {
+                    position[0][i]=column+i;
+                    position[1][i]=row; 
+                }
+            }
+            else
+            {
+                for(int i=0;i<3;i++)
+                {
+                    position[0][i]=column-i;
+                    position[1][i]=row;
+                }
+            }
+        }
+        else
+        {
+            if(row<2)
+            {
+                for(int i=0;i<3;i++)
+                {
+                    position[1][i]=row+i;
+                }
+                for(int i=0;i<3;i++)
+                {
+                   position[0][i]=column; 
+                }
+            }
+            else
+            {
+                for(int i=0;i<3;i++)
+                {
+                    position[1][i]=row-i;
+                }
+                for(int i=0;i<3;i++)
+                {
+                   position[0][i]=column; 
+                }
+            }
+        }
+    }
+}
