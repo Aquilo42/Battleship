@@ -1,0 +1,143 @@
+import java.util.Scanner;
+public class Tester
+{
+    private static int[][] gameBoard = new int[10][10]; 
+    private static int turnCount;
+    private static int totalShips;
+    public static void main(String[] args)
+    {
+            placeShips(); 
+        turnCount=0;
+        System.out.println("There are 3 battleships each 3 tiles long on the board");
+        System.out.println("Sink all of the ships to win");
+        System.out.println("(Ships can overlap)");
+        while(!allSunk())
+        Turn();
+        System.out.print("Congratulations, you sunk all the battleships!");
+    }
+    public static void placeShips()
+    {
+        boolean horizontal;
+            if(Math.random()>=0.5)
+        {
+            horizontal=true;
+        }
+        else
+        {
+            horizontal=false;
+        }
+        Ship ship1 = new Ship(horizontal);
+        if(Math.random()>=0.5)
+        {
+            horizontal=true;
+        }
+        else
+        {
+            horizontal=false;
+        }
+        Ship ship2 = new Ship(horizontal);
+        if(Math.random()>=0.5)
+        {
+            horizontal=true;
+        }
+        else
+        {
+            horizontal=false;
+        }
+        Ship ship3 = new Ship(horizontal);
+        for(int i=0;i<3;i++)
+        {
+            gameBoard[ship1.getPosition(0,i)][ship1.getPosition(1,i)]= 1;
+            gameBoard[ship2.getPosition(0,i)][ship2.getPosition(1,i)]= 1;
+            gameBoard[ship3.getPosition(0,i)][ship3.getPosition(1,i)]= 1;
+        }
+        for(int i=0;i<gameBoard.length; i++)
+        {
+            for(int j=0; j<gameBoard[0].length; j++)
+            {
+                totalShips+=gameBoard[i][j];
+            }
+            System.out.println();
+        }
+            // System.out.println(ship1.getRow());
+            // System.out.println(ship1.getColumn());
+            // System.out.println(ship2.getRow());
+            // System.out.println(ship2.getColumn());
+            // System.out.println(ship3.getRow());
+            // System.out.println(ship3.getColumn());
+            // System.out.println("total ships: " + totalShips);
+    }
+    public static void Turn()
+    {
+        System.out.print(" \t");
+        for(int i=0;i<gameBoard.length; i++)
+        {
+            System.out.print((i+1) +"\t");
+        }
+        System.out.println();
+        for(int i=0;i<gameBoard.length; i++)
+        {
+            System.out.print((i+1) +"\t");
+            for(int j=0; j<gameBoard[0].length; j++)
+            {
+                if(gameBoard[i][j]==0||gameBoard[i][j]==1)
+                {
+                    System.out.print("/");
+                }
+                else if(gameBoard[i][j]==2)
+                {
+                    System.out.print("X");
+                }
+                else if(gameBoard[i][j]==3)
+                {
+                    System.out.print("O");
+                }
+                System.out.print("\t");
+            }
+            System.out.println();
+        }
+        Scanner kb = new Scanner(System.in);
+        System.out.print("What is the x position for your guess?");
+        int xGuess = kb.nextInt();
+        System.out.print("What is the y position for your guess?");
+        int yGuess = kb.nextInt();
+        Fire(xGuess,yGuess);
+        turnCount++;
+    }
+    public static void Fire(int x, int y)
+    {
+        if(gameBoard[y-1][x-1]==1)
+        {
+            System.out.println("Hit!");
+            gameBoard[y-1][x-1]=2;
+        }
+        else if(gameBoard[y-1][x-1]==0)
+        {
+            System.out.println("Miss");
+            gameBoard[y-1][x-1]=3;
+        }
+        else if(gameBoard[y-1][x-1]==2||gameBoard[y-1][x-1]==3)
+        {
+            System.out.println("You've already shot this space!");
+        }
+    }
+    public static boolean allSunk()
+    {
+        int sunkCount=0;
+        for(int i=0;i<10;i++)
+        {
+            for(int j=0;j<10;j++)
+            {
+                if(gameBoard[i][j]==2)
+                {
+                    sunkCount++;
+                }
+            }
+        }
+        if(sunkCount>=totalShips)
+        {
+            return true;
+        }
+        return false;
+    }
+}
